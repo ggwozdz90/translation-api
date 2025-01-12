@@ -11,7 +11,9 @@ a = Analysis(
     [os.path.join(project_dir, 'src', 'main.py')],
     pathex=[os.path.join(project_dir, 'src')],
     binaries=[],
-    datas=[],
+    datas=[
+        (os.path.join(project_dir, 'src', 'assets', 'mappings'), 'assets/mappings'),
+    ],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
