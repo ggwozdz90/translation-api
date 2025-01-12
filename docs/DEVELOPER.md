@@ -1,4 +1,4 @@
-# {{{PROJECT-TITLE}}} - Developer Guide
+# Translation API - Developer Guide
 
 ## Features & Technical Highlights
 
@@ -59,8 +59,8 @@ Choose your development environment:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/ggwozdz90/{{{PROJECT-NAME}}}
-    cd {{{PROJECT-NAME}}}
+    git clone https://github.com/ggwozdz90/translation-api
+    cd translation-api
     ```
 
 2. Install poetry:
@@ -138,10 +138,10 @@ Choose your development environment:
 
 #### Docker Images
 
-- Build Docker images for CPU, CUDA and ROCm:
+- Build Docker images:
 
     ```bash
-    docker build -t {{{PROJECT-NAME}}}:latest .
+    docker build -t translation-api:latest .
     ```
 
 ## CI/CD Pipeline
@@ -173,7 +173,7 @@ src/
 
 ## Table of Contents
 
-- [{{{PROJECT-TITLE}}} - Developer Guide](#{{{PROJECT-NAME}}}---developer-guide)
+- [Translation API - Developer Guide](#translation-api---developer-guide)
   - [Features \& Technical Highlights](#features--technical-highlights)
     - [Core Capabilities](#core-capabilities)
     - [Technical Architecture](#technical-architecture)

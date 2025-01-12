@@ -22,9 +22,9 @@ This document describes how to clone the repository and start working on a new p
 ## Initial Setup on the New Repository
 
 1. Search and replace the following strings in all files downloaded from the repository:
-    - `{{{PROJECT-NAME}}}` -> e.g. "speech-to-text-api" (use hyphens to separate words, e.g., "my-new-project")
-    - `{{{PROJECT-DESCRIPTION}}}` -> e.g. "A FastAPI project integrating speech to text and translation services."
-    - `{{{PROJECT-TITLE}}}` -> e.g. "Speech to text API" (same as `{{{PROJECT-NAME}}}` but with spaces instead of hyphens)
+    - `translation-api` -> e.g. "speech-to-text-api" (use hyphens to separate words, e.g., "my-new-project")
+    - `A FastAPI project integrating translation services.` -> e.g. "A FastAPI project integrating speech to text and translation services."
+    - `Translation API` -> e.g. "Speech to text API" (same as `translation-api` but with spaces instead of hyphens)
     - If you cloned the repository from a user other than the author `ggwozdz90`, replace all occurrences of `ggwozdz90` with your GitHub and DockerHub username.
 
 2. Optionally, you can remove the TEMPLATE_SETUP.md file:

@@ -27,13 +27,13 @@ jobs:
         build-args: |
           POETRY_INSTALL_ARGS=
         labels: |
-          org.opencontainers.image.title="{{{PROJECT-TITLE}}}"
-          org.opencontainers.image.description="{{{PROJECT-DESCRIPTION}}}"
-          org.opencontainers.image.source="https://github.com/ggwozdz90/{{{PROJECT-NAME}}}"
-          org.opencontainers.image.documentation="https://github.com/ggwozdz90/{{{PROJECT-NAME}}}/blob/main/docs/README.md"
+          org.opencontainers.image.title="Translation API"
+          org.opencontainers.image.description="A FastAPI project integrating translation services."
+          org.opencontainers.image.source="https://github.com/ggwozdz90/translation-api"
+          org.opencontainers.image.documentation="https://github.com/ggwozdz90/translation-api/blob/main/docs/README.md"
         tags: | 
-          ggwozdz/{{{PROJECT-NAME}}}:${{ github.ref_name }}
-          ggwozdz/{{{PROJECT-NAME}}}:latest
+          ggwozdz/translation-api:${{ github.ref_name }}
+          ggwozdz/translation-api:latest
 
   deploy-dockerhub-overview:
     runs-on: ubuntu-latest
@@ -48,5 +48,5 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-        repository: ggwozdz/{{{PROJECT-NAME}}}
+        repository: ggwozdz/translation-api
         readme-filepath: ./docs/DOCKERHUB.md
