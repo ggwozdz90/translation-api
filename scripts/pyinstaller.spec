@@ -11,7 +11,9 @@ a = Analysis(
     [os.path.join(project_dir, 'src', 'main.py')],
     pathex=[os.path.join(project_dir, 'src')],
     binaries=[],
-    datas=[],
+    datas=[
+        (os.path.join(project_dir, 'src', 'assets', 'mappings'), 'assets/mappings'),
+    ],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
@@ -26,7 +28,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='{{{PROJECT-NAME}}}',
+    name='translation-api',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -43,5 +45,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='{{{PROJECT-NAME}}}',
+    name='translation-api',
 )
