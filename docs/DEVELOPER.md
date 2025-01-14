@@ -104,13 +104,13 @@ Choose your hardware acceleration:
 5. Install dependencies:
 
     ```bash
-    # text-to-speech processing on CPU
+    # translation processing on CPU
     poetry install --extras cpu
   
-    # text-to-speech processing on GPU  (NVIDIA CUDA 12.4)
+    # translation processing on GPU  (NVIDIA CUDA 12.4)
     poetry install --extras cuda124
 
-    # text-to speech processing on GPU (AMD ROCm 6.2)
+    # translation processing on GPU (AMD ROCm 6.2)
     poetry install --extras rocm62
     ```
 
@@ -169,15 +169,15 @@ Choose your hardware acceleration:
 
     ```bash
     # CPU Version - Recommended
-    docker build --build-arg POETRY_INSTALL_ARGS="--extras=cpu" -t speech-to-text-api:cpu .
+    docker build --build-arg POETRY_INSTALL_ARGS="--extras=cpu" -t translation-api:cpu .
 
     # CUDA Version - Proof of concept implementation
     # Note: May require additional GPU support software
-    docker build --build-arg POETRY_INSTALL_ARGS="--extras=cuda124" -t speech-to-text-api:cuda .
+    docker build --build-arg POETRY_INSTALL_ARGS="--extras=cuda124" -t translation-api:cuda .
 
     # ROCm Version - Proof of concept implementation
     # Note: May require additional GPU support software
-    docker build --build-arg POETRY_INSTALL_ARGS="--extras=rocm62" -t speech-to-text-api:rocm .
+    docker build --build-arg POETRY_INSTALL_ARGS="--extras=rocm62" -t translation-api:rocm .
     ```
 
 ## CI/CD Pipeline
