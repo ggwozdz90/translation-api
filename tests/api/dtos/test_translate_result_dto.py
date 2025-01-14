@@ -7,7 +7,7 @@ from api.dtos.translate_result_dto import TranslateResultDTO
 @pytest.fixture
 def valid_data() -> dict[str, str]:
     return {
-        "content": "transcription result",
+        "content": "translation result",
     }
 
 
