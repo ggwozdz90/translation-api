@@ -34,8 +34,8 @@ def test_translate_success(
     # When
     response = client.post(
         "/translate",
-        params={
-            "text": "Hello, how are you?",
+        json={
+            "text_to_translate": "Hello, how are you?",
             "source_language": "en_US",
             "target_language": "pl_PL",
         },
@@ -44,7 +44,7 @@ def test_translate_success(
     # Then
     assert response.status_code == 200
     assert response.json() == {
-        "content": "translation_result",
+        "translation": "translation_result",
     }
     mock_translate_text_usecase.execute.assert_awaited_once()
 

@@ -3,9 +3,8 @@ import multiprocessing.connection
 import multiprocessing.synchronize
 from dataclasses import dataclass
 from multiprocessing.sharedctypes import Synchronized
-from typing import Tuple
+from typing import Any, Dict, Tuple
 
-import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from data.workers.base_worker import BaseWorker
@@ -22,7 +21,7 @@ class MBartTranslationConfig:
 
 class MBartTranslationWorker(
     BaseWorker[  # type: ignore
-        Tuple[str, str, str],
+        Tuple[str, str, str, Dict[str, Any]],
         str,
         MBartTranslationConfig,
         Tuple[AutoModelForSeq2SeqLM, AutoTokenizer],
@@ -30,14 +29,25 @@ class MBartTranslationWorker(
 ):
     def translate(
         self,
-        text: str,
+        text_to_translate: str,
         source_language: str,
         target_language: str,
+        generation_parameters: Dict[str, Any],
     ) -> str:
         if not self.is_alive():
             raise WorkerNotRunningError()
 
-        self._pipe_parent.send(("translate", (text, source_language, target_language)))
+        self._pipe_parent.send(
+            (
+                "translate",
+                (
+                    text_to_translate,
+                    source_language,
+                    target_language,
+                    generation_parameters,
+                ),
+            ),
+        )
         result = self._pipe_parent.recv()
 
         if isinstance(result, Exception):
@@ -62,7 +72,7 @@ class MBartTranslationWorker(
     def handle_command(
         self,
         command: str,
-        args: Tuple[str, str, str],
+        args: Tuple[str, str, str, Dict[str, Any]],
         shared_object: Tuple[AutoModelForSeq2SeqLM, AutoTokenizer],
         config: MBartTranslationConfig,
         pipe: multiprocessing.connection.Connection,
@@ -74,21 +84,20 @@ class MBartTranslationWorker(
                 with processing_lock:
                     is_processing.value = True
 
-                text, source_language, target_language = args
+                text, source_language, target_language, generation_parameters = args
                 model, tokenizer = shared_object
 
                 tokenizer.src_lang = source_language
-                inputs = tokenizer([text], truncation=True, padding=True, max_length=1024, return_tensors="pt")
+                inputs = tokenizer(text, return_tensors="pt").to(config.device)
 
-                for key in inputs:
-                    inputs[key] = inputs[key].to(config.device)
-
-                with torch.no_grad():
+                if "forced_bos_token_id" in generation_parameters:
+                    kwargs = {"forced_bos_token_id": generation_parameters["forced_bos_token_id"]}
+                else:
                     kwargs = {"forced_bos_token_id": tokenizer.lang_code_to_id[target_language]}
 
-                    translated = model.generate(**inputs, num_beams=5, **kwargs)
+                translation = model.generate(**inputs, **kwargs)
 
-                    output = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+                output = [tokenizer.decode(t, skip_special_tokens=True) for t in translation]
 
                 pipe.send("".join(output))
 

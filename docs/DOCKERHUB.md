@@ -74,19 +74,31 @@ Available on [Docker Hub](https://hub.docker.com/r/ggwozdz/translation-api):
 - Request:
 
     ```bash
-    curl -X POST "http://localhost:8000/translate" \
-        -F "text=Hello, how are you?" \
-        -F "source_language=en_US"
-        -F "target_language=pl_PL"
+    curl -X 'POST' \
+      'http://127.0.0.1:8000/translate' \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+      -d '{
+      "text_to_translate": "The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, and the tallest structure in Paris. Its base is square, measuring 125 metres (410 ft) on each side. During its construction, the Eiffel Tower surpassed the Washington Monument to become the tallest man-made structure in the world, a title it held for 41 years until the Chrysler Building in New York City was finished in 1930. It was the first structure to reach a height of 300 metres. Due to the addition of a broadcasting aerial at the top of the tower in 1957, it is now taller than the Chrysler Building by 5.2 metres (17 ft). Excluding transmitters, the Eiffel Tower is the second tallest free-standing structure in France after the Millau Viaduct.",
+      "source_language": "en_US",
+      "target_language": "pl_PL",
+      "generation_parameters": { "max_length": 10240, "num_beams": 10 }
+    }'
     ```
 
 - Response:
 
     ```json
     {
-      "content": "Cześć, jak się masz?",
+      "translation": "Wieża Eiffla ma wysokość 324 metrów, mniej więcej taką samą wysokość jak 81-piętrowy budynek, i jest najwyższą budowlą w Paryżu. Jego podstawa jest kwadratowa, mierząc 125 metrów na każdej stronie. Podczas jej budowy Wieża Eiffla przekroczyła Pomnik Waszyngtonu, stając się najwyższą budowlą stworzoną przez człowieka na świecie, tytuł utrzymywał przez 41 rok, dopóki budynek Chrysler w Nowym Jorku nie został ukończony w 1930 roku."
     }
     ```
+
+#### Generation parameters
+
+The `generation_parameters` field in the request body allows you to specify the parameters which are described in the model documentation.
+
+[For Seamless model](https://huggingface.co/docs/transformers/main/en/model_doc/seamless_m4t#transformers.SeamlessM4TForTextToText.generate) and [for mBART model](https://huggingface.co/docs/transformers/main/en/model_doc/mbart#transformers.MBartForConditionalGeneration.generate)
 
 ### Health Check
 

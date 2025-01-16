@@ -11,7 +11,7 @@ def test_translate_dto_valid_languages() -> None:
 
     # When
     dto = TranslateDTO(
-        text="Hello, how are you?",
+        text_to_translate="Hello, how are you?",
         source_language=valid_source_language,
         target_language=valid_target_language,
     )
@@ -19,7 +19,7 @@ def test_translate_dto_valid_languages() -> None:
     # Then
     assert dto.source_language == valid_source_language
     assert dto.target_language == valid_target_language
-    assert dto.text == "Hello, how are you?"
+    assert dto.text_to_translate == "Hello, how are you?"
 
 
 def test_translate_dto_invalid_source_language() -> None:
@@ -28,7 +28,11 @@ def test_translate_dto_invalid_source_language() -> None:
 
     # When / Then
     with pytest.raises(ValidationError) as exc_info:
-        TranslateDTO(text="Hello, how are you?", source_language=invalid_source_language, target_language="es_ES")
+        TranslateDTO(
+            text_to_translate="Hello, how are you?",
+            source_language=invalid_source_language,
+            target_language="es_ES",
+        )
 
     assert "Invalid language format. Expected format is xx_XX" in str(exc_info.value)
 
@@ -39,6 +43,10 @@ def test_translate_dto_invalid_target_language() -> None:
 
     # When / Then
     with pytest.raises(ValidationError) as exc_info:
-        TranslateDTO(text="Hello, how are you?", source_language="en_US", target_language=invalid_target_language)
+        TranslateDTO(
+            text_to_translate="Hello, how are you?",
+            source_language="en_US",
+            target_language=invalid_target_language,
+        )
 
     assert "Invalid language format. Expected format is xx_XX" in str(exc_info.value)

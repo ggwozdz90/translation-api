@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Body, Depends
 
 from api.dtos.translate_dto import TranslateDTO
 from api.dtos.translate_result_dto import TranslateResultDTO
@@ -15,14 +15,15 @@ class TranslateRouter:
     async def translate(
         self,
         translate_text_usecase: Annotated[TranslateTextUseCase, Depends()],
-        translate_dto: TranslateDTO = Depends(),
+        translate_dto: TranslateDTO = Body(...),
     ) -> TranslateResultDTO:
-        result = await translate_text_usecase.execute(
-            translate_dto.text,
+        translation = await translate_text_usecase.execute(
+            translate_dto.text_to_translate,
             translate_dto.source_language,
             translate_dto.target_language,
+            translate_dto.generation_parameters,
         )
 
         return TranslateResultDTO(
-            content=result,
+            translation=translation,
         )

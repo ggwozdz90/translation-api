@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, field_validator
 
@@ -7,9 +7,10 @@ from domain.exceptions.invalid_language_format_error import InvalidLanguageForma
 
 
 class TranslateDTO(BaseModel):
-    text: str
+    text_to_translate: str
     source_language: str
     target_language: str
+    generation_parameters: Dict[str, Any] = {}
 
     @staticmethod
     def validate_language_format(v: str) -> str:
