@@ -59,11 +59,11 @@ def test_translate_text_success(
     mock_translation_model_repository.translate.return_value = "Hola Mundo"
 
     # When
-    result = translation_service.translate_text(text, source_language, target_language)
+    result = translation_service.translate_text(text, source_language, target_language, {})
 
     # Then
     assert result == "Hola Mundo"
-    mock_translation_model_repository.translate.assert_called_once_with(text, source_language, target_language)
+    mock_translation_model_repository.translate.assert_called_once_with(text, source_language, target_language, {})
 
 
 def test_translate_text_exception(
@@ -80,4 +80,4 @@ def test_translate_text_exception(
 
     # When / Then
     with pytest.raises(Exception, match="Translation error"):
-        translation_service.translate_text(text, source_language, target_language)
+        translation_service.translate_text(text, source_language, target_language, {})

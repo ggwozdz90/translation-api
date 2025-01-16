@@ -24,18 +24,18 @@ def client(
     return TestClient(app)
 
 
-def test_transcribe_success(
+def test_translate_success(
     client: TestClient,
     mock_translate_text_usecase: TranslateTextUseCase,
 ) -> None:
     # Given
-    mock_translate_text_usecase.execute = AsyncMock(return_value="transcription_result")
+    mock_translate_text_usecase.execute = AsyncMock(return_value="translation_result")
 
     # When
     response = client.post(
         "/translate",
-        params={
-            "text": "Hello, how are you?",
+        json={
+            "text_to_translate": "Hello, how are you?",
             "source_language": "en_US",
             "target_language": "pl_PL",
         },
@@ -44,12 +44,12 @@ def test_transcribe_success(
     # Then
     assert response.status_code == 200
     assert response.json() == {
-        "content": "transcription_result",
+        "translation": "translation_result",
     }
     mock_translate_text_usecase.execute.assert_awaited_once()
 
 
-def test_transcribe_missing_source_language(client: TestClient) -> None:
+def test_translate_missing_source_language(client: TestClient) -> None:
     # When
     response = client.post(
         "/translate",

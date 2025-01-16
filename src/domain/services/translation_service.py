@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Any, Dict
 
 from fastapi import Depends
 
@@ -26,9 +26,10 @@ class TranslationService:
 
     def translate_text(
         self,
-        text: str,
+        text_to_translate: str,
         source_language: str,
         target_language: str,
+        generation_parameters: Dict[str, Any],
     ) -> str:
         self.logger.debug(f"Starting translation of text from '{source_language}' to '{target_language}'")
 
@@ -41,12 +42,13 @@ class TranslationService:
             self.config.translation_model_name,
         )
 
-        translated_text: str = self.translation_model_repository.translate(
-            text,
+        translation: str = self.translation_model_repository.translate(
+            text_to_translate,
             source_language_mapped,
             target_language_mapped,
+            generation_parameters,
         )
 
         self.logger.debug("Completed translation of text")
 
-        return translated_text
+        return translation

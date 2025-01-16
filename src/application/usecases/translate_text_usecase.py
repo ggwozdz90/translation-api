@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Any, Dict
 
 from fastapi import Depends
 
@@ -20,20 +20,22 @@ class TranslateTextUseCase:
 
     async def execute(
         self,
-        text: str,
+        text_to_translate: str,
         source_language: str,
         target_language: str,
+        generation_parameters: Dict[str, Any],
     ) -> str:
         self.logger.info(
-            f"Executing translation for text '{text}' from '{source_language}' to '{target_language}'",
+            f"Executing translation for text '{text_to_translate}' from '{source_language}' to '{target_language}'",
         )
 
-        translation_result: str = self.translation_service.translate_text(
-            text,
+        translation: str = self.translation_service.translate_text(
+            text_to_translate,
             source_language,
             target_language,
+            generation_parameters,
         )
 
         self.logger.info("Returning translation result")
 
-        return translation_result
+        return translation

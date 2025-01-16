@@ -7,7 +7,7 @@ from api.dtos.translate_result_dto import TranslateResultDTO
 @pytest.fixture
 def valid_data() -> dict[str, str]:
     return {
-        "content": "transcription result",
+        "translation": "translation result",
     }
 
 
@@ -23,7 +23,7 @@ def test_translate_result_dto_valid(valid_data: dict[str, str]) -> None:
     dto = TranslateResultDTO(**valid_data)
 
     # Then
-    assert dto.content == valid_data["content"]
+    assert dto.translation == valid_data["translation"]
 
 
 def test_translate_result_dto_invalid(invalid_data: dict[str, str]) -> None:
@@ -35,11 +35,11 @@ def test_translate_result_dto_invalid(invalid_data: dict[str, str]) -> None:
 def test_translate_result_dto_empty_content() -> None:
     # Given
     data = {
-        "content": "",
+        "translation": "",
     }
 
     # When
     dto = TranslateResultDTO(**data)
 
     # Then
-    assert dto.content == data["content"]
+    assert dto.translation == data["translation"]

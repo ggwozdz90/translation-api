@@ -45,8 +45,8 @@ async def test_execute_success(
     mock_translation_service.translate_text = Mock(return_value="translated_result")
 
     # When
-    result = await use_case.execute("Hello", "en", "pl")
+    result = await use_case.execute("Hello", "en", "pl", {})
 
     # Then
     assert result == "translated_result"
-    mock_translation_service.translate_text.assert_called_once_with("Hello", "en", "pl")
+    mock_translation_service.translate_text.assert_called_once_with("Hello", "en", "pl", {})
