@@ -90,12 +90,10 @@ class MBartTranslationWorker(
                 tokenizer.src_lang = source_language
                 inputs = tokenizer(text, return_tensors="pt").to(config.device)
 
-                if "forced_bos_token_id" in generation_parameters:
-                    kwargs = {"forced_bos_token_id": generation_parameters["forced_bos_token_id"]}
-                else:
-                    kwargs = {"forced_bos_token_id": tokenizer.lang_code_to_id[target_language]}
+                if "forced_bos_token_id" not in generation_parameters:
+                    generation_parameters["forced_bos_token_id"] = tokenizer.lang_code_to_id[target_language]
 
-                translation = model.generate(**inputs, **kwargs)
+                translation = model.generate(**inputs, **generation_parameters)
 
                 output = [tokenizer.decode(t, skip_special_tokens=True) for t in translation]
 
